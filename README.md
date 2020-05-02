@@ -1,21 +1,22 @@
 # Dependency-track bom publish plugin
 
-##Motivation
+## Motivation
 Easy way to publish the generated dependency bom to your dependency track server.
 
 I suggest to use cyclonedx.
 
-##Installation
+## Installation
 This plugin depends on a bom generation task. E.g. the [cycloneDx plugin](https://github.com/CycloneDX/cyclonedx-gradle-plugin).
 
-###Add the plugins
+### Add the plugins
     
     plugins{
         id "org.cyclonedx.bom" version "1.1.4"
-        id 'com.github.mkep-dev.dependency-track-bom-publish' version "0.1"
+        id 'com.github.mkep-dev.dependency-track-bom-publish' version "0.1.0"
         ...
     }
-###Minimal configuration
+    
+### Minimal configuration
 Note: The `dependsOn` is extremely important!!!
 
     ...
@@ -27,7 +28,7 @@ Note: The `dependsOn` is extremely important!!!
     publishBom.dependsOn(cyclonedxBom)   
     ...
 
-###Full configuration
+### Full configuration
     dtrackPublishBom{
         host "dtrackhostname"
         apiKey "EDrfTh1NrwqDtxJYKqEY206yu0sf2j1w"
