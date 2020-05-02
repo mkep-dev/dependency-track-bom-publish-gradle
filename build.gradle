@@ -1,0 +1,54 @@
+
+plugins {
+    id 'java'
+    id 'org.jetbrains.kotlin.jvm' version '1.3.61'
+    id "com.gradle.plugin-publish" version "0.11.0"
+    id 'java-gradle-plugin'
+}
+
+group 'com.github.mkep-dev'
+version '0.1.0'
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation gradleApi()
+
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.61'
+
+    implementation 'org.apache.httpcomponents:fluent-hc:4.5.12'
+    implementation 'com.google.code.gson:gson:2.8.6'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+compileKotlin {
+    kotlinOptions.jvmTarget = '1.8'
+}
+
+
+gradlePlugin {
+
+    plugins {
+        dtrackBomPublish{
+            id = 'com.github.mkep-dev.dependency-track-bom-publish'
+            implementationClass = 'com.github.mkepDev.dependencyTrackBomPublish.DependencyTrackBomPublishPlugin'
+        }
+    }
+}
+pluginBundle {
+    website = 'https://github.com/mkep-dev/dependency-track-bom-publish-gradle'
+    vcsUrl = 'https://github.com/mkep-dev/dependency-track-bom-publish-gradle'
+    description = 'See github repository.'
+    tags = ['dependency-track', 'vulnerability', 'cyclonedx']
+
+    plugins {
+        dtrackBomPublish {
+            displayName = 'Dependency track bom publish plugin'
+        }
+    }
+}
+
