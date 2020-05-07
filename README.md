@@ -1,5 +1,10 @@
 # Dependency-track bom publish plugin
 
+# A gradle communinity plugin
+The latest stable version of the plugin can be found under plugins.gradle.org.
+
+Link: https://plugins.gradle.org/plugin/com.github.mkep-dev.dependency-track-bom-publish 
+
 ## Motivation
 Easy way to publish the generated dependency bom to your dependency track server.
 
@@ -12,7 +17,7 @@ This plugin depends on a bom generation task. E.g. the [cycloneDx plugin](https:
     
     plugins{
         id "org.cyclonedx.bom" version "1.1.4"
-        id 'com.github.mkep-dev.dependency-track-bom-publish' version "0.1.0"
+        id 'com.github.mkep-dev.dependency-track-bom-publish' version "0.1.1"
         ...
     }
     
