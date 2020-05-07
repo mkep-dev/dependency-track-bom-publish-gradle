@@ -1,6 +1,6 @@
 # Dependency-track bom publish plugin
 
-# A gradle communinity plugin
+## A gradle communinity plugin
 The latest stable version of the plugin can be found under plugins.gradle.org.
 
 Link: https://plugins.gradle.org/plugin/com.github.mkep-dev.dependency-track-bom-publish 
