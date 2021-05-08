@@ -17,7 +17,7 @@ This plugin depends on a bom generation task. E.g. the [cycloneDx plugin](https:
     
     plugins{
         id "org.cyclonedx.bom" version "1.1.4"
-        id 'com.github.mkep-dev.dependency-track-bom-publish' version "0.1.1"
+        id 'com.github.mkep-dev.dependency-track-bom-publish' version "0.1.2"
         ...
     }
     

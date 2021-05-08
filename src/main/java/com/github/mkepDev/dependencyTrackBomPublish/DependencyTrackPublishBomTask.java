@@ -28,6 +28,7 @@ import java.net.ConnectException;
 import java.nio.file.Files;
 import java.util.Base64;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Task to publish the software bom to the dependency track server
@@ -71,7 +72,7 @@ public class DependencyTrackPublishBomTask extends DefaultTask {
     }
 
     /**
-     * Task call to publisht the bom to the server
+     * Task call to publish the bom to the server
      */
     @TaskAction
     public void publish() {
@@ -93,8 +94,8 @@ public class DependencyTrackPublishBomTask extends DefaultTask {
      */
     private String getFileContent(File file) {
         logger.info("Try to read file '{}'...", file.getPath());
-        try {
-            return Files.lines(file.toPath()).collect(Collectors.joining("\n"));
+        try(Stream<String> stream = Files.lines(file.toPath())) {
+            return stream.collect(Collectors.joining("\n"));
         } catch (IOException e) {
             logger.error("Failed to read the file '{}'. See {}", file.getAbsolutePath(), e);
             e.printStackTrace();
@@ -114,7 +115,7 @@ public class DependencyTrackPublishBomTask extends DefaultTask {
     private void publishData(String host, String realm, String apiKey, String projectUuid, String bomString) {
 
         if (bomString == null || bomString.isEmpty()) {
-            throw new RuntimeException("The bom string is null or empty. Check the generated bom.");
+            throw new IllegalArgumentException("The bom string is null or empty. Check the generated bom.");
         }
 
         logger.info("Encode bom string to Base64...");
@@ -149,7 +150,9 @@ public class DependencyTrackPublishBomTask extends DefaultTask {
             realm = realm.substring(0, host.length() - 1);
         }
 
-        String dtrackUrl = "http://" + host.replaceAll("http%://", "") + "/" + realm;
+        logger.info("Use new reqex");
+
+        String dtrackUrl = "http://" + host.replaceAll("https?://", "") + "/" + realm;
 
         logger.info("Create request to '{}'...", dtrackUrl);
 
