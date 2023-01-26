@@ -51,7 +51,7 @@ public class DependencyTrackPublishBomTask extends DefaultTask {
     /**
      * the json field name for the bom
      */
-    private static final String BODY_bom_JSON_FIELD = "bom";
+    private static final String BODY_BOM_JSON_FIELD = "bom";
 
     /**
      * The extension that contains the config
@@ -83,7 +83,7 @@ public class DependencyTrackPublishBomTask extends DefaultTask {
         }
 
 
-        publishData(extension.getHost(), extension.getRealm(), extension.getApiKey(), extension.getProjectUuid(), getFileContent(extension.getBomFile()));
+        publishData(extension.getUseHttps(), extension.getHost(), extension.getRealm(), extension.getApiKey(), extension.getProjectUuid(), getFileContent(extension.getBomFile()));
     }
 
     /**
@@ -94,7 +94,7 @@ public class DependencyTrackPublishBomTask extends DefaultTask {
      */
     private String getFileContent(File file) {
         logger.info("Try to read file '{}'...", file.getPath());
-        try(Stream<String> stream = Files.lines(file.toPath())) {
+        try (Stream<String> stream = Files.lines(file.toPath())) {
             return stream.collect(Collectors.joining("\n"));
         } catch (IOException e) {
             logger.error("Failed to read the file '{}'. See {}", file.getAbsolutePath(), e);
@@ -106,13 +106,14 @@ public class DependencyTrackPublishBomTask extends DefaultTask {
     /**
      * Send the given bomString to the dependency track server
      *
+     * @param useHttps    whether https should be used
      * @param host        the host
      * @param realm       the realm of rest api
      * @param apiKey      the api key
      * @param projectUuid the uuid of the project
      * @param bomString   the bom string
      */
-    private void publishData(String host, String realm, String apiKey, String projectUuid, String bomString) {
+    private void publishData(boolean useHttps, String host, String realm, String apiKey, String projectUuid, String bomString) {
 
         if (bomString == null || bomString.isEmpty()) {
             throw new IllegalArgumentException("The bom string is null or empty. Check the generated bom.");
@@ -129,7 +130,7 @@ public class DependencyTrackPublishBomTask extends DefaultTask {
         logger.info("Set project uuid.");
         jsonData.addProperty(BODY_PROJECT_JSON_FIELD, projectUuid);
         logger.info("Set encoded bom.");
-        jsonData.addProperty(BODY_bom_JSON_FIELD, encodedBom);
+        jsonData.addProperty(BODY_BOM_JSON_FIELD, encodedBom);
 
 
         logger.info("Convert json object to string...");
@@ -152,7 +153,15 @@ public class DependencyTrackPublishBomTask extends DefaultTask {
 
         logger.info("Use new reqex");
 
-        String dtrackUrl = "http://" + host.replaceAll("https?://", "") + "/" + realm;
+        String protocol = null;
+
+        if (useHttps) {
+            protocol = "https://";
+        } else {
+            protocol = "http://";
+        }
+
+        String dtrackUrl = protocol + host + "/" + realm;
 
         logger.info("Create request to '{}'...", dtrackUrl);
 

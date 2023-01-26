@@ -20,6 +20,7 @@ import javax.inject.Inject
  */
 open class DependencyTrackBomPublishExtension @Inject constructor(buildDir: File) {
 
+    var useHttps = true
     var host: String = ""
     var realm = "api/v1/bom"
     var apiKey: String = ""
@@ -58,6 +59,7 @@ open class DependencyTrackBomPublishExtension @Inject constructor(buildDir: File
 
     override fun toString(): String {
         return "DependencyTrackBomPublishExtension(host='$host',\n" +
+                "useHttps=$useHttps,\n"+
                 " realm='$realm',\n" +
                 " apiKey='$apiKey',\n" +
                 " projectUuid='$projectUuid',\n" +

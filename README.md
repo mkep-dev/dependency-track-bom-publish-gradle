@@ -16,13 +16,15 @@ This plugin depends on a bom generation task. E.g. the [cycloneDx plugin](https:
 ### Add the plugins
     
     plugins{
-        id "org.cyclonedx.bom" version "1.1.4"
-        id 'com.github.mkep-dev.dependency-track-bom-publish' version "0.1.2"
+        id "org.cyclonedx.bom" version "1.7.3"
+        id 'com.github.mkep-dev.dependency-track-bom-publish' version "0.1.3"
         ...
     }
     
 ### Minimal configuration
 Note: The `dependsOn` is extremely important!!!
+
+Https is used as default protocol (Use `useHttps` option to change this).
 
     ...
     dtrackPublishBom{
@@ -35,6 +37,7 @@ Note: The `dependsOn` is extremely important!!!
 
 ### Full configuration
     dtrackPublishBom{
+        useHttps true  // whether https should be used, defualts to true
         host "dtrackhostname"
         apiKey "EDrfTh1NrwqDtxJYKqEY206yu0sf2j1w"
         projectUuid "aa581df3-e48c-464b-bd61-8fe359af3d8a"
